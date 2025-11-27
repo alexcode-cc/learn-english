@@ -27,7 +27,7 @@
 - [x] T002 Initialize Vite project with Vue 3 + TypeScript template in app/
 - [x] T003 [P] Configure ESLint with Vue 3 + TypeScript rules in app/.eslintrc.cjs
 - [x] T004 [P] Configure Prettier for code formatting in app/.prettierrc
-- [ ] T005 [P] Setup Git hooks for pre-commit linting and formatting
+- [x] T005 [P] Setup Git hooks for pre-commit linting and formatting
 - [x] T006 Install and configure Vuetify 3 in app/src/main.ts
 - [x] T007 Install and configure Pinia store in app/src/main.ts
 - [x] T008 Install and configure Vue Router in app/src/router/
@@ -69,10 +69,10 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T023 [P] [US1] Unit test for WordCard component flip animation in app/tests/component/WordCard.spec.ts
-- [ ] T024 [P] [US1] Unit test for word status update functionality in app/tests/unit/word-status.spec.ts
-- [ ] T025 [P] [US1] Integration test for word card browsing flow in app/tests/integration/word-browsing.spec.ts
-- [ ] T026 [P] [US1] E2E test for card flip and status marking in app/tests/e2e/word-card.spec.ts
+- [x] T023 [P] [US1] Unit test for WordCard component flip animation in app/tests/component/WordCard.spec.ts
+- [x] T024 [P] [US1] Unit test for word status update functionality in app/tests/unit/word-status.spec.ts
+- [x] T025 [P] [US1] Integration test for word card browsing flow in app/tests/integration/word-browsing.spec.ts
+- [x] T026 [P] [US1] E2E test for card flip and status marking in app/tests/e2e/word-card.spec.ts
 
 ### Implementation for User Story 1
 
@@ -102,27 +102,27 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T038 [P] [US2] Unit test for CSV parsing service in app/tests/unit/csv-service.spec.ts
-- [ ] T039 [P] [US2] Unit test for dictionary enrichment service in app/tests/unit/dictionary-service.spec.ts
-- [ ] T040 [P] [US2] Integration test for CSV import flow in app/tests/integration/csv-import.spec.ts
-- [ ] T041 [P] [US2] E2E test for CSV import with progress tracking in app/tests/e2e/csv-import.spec.ts
+- [x] T038 [P] [US2] Unit test for CSV parsing service in app/tests/unit/csv-service.spec.ts
+- [x] T039 [P] [US2] Unit test for dictionary enrichment service in app/tests/unit/dictionary-service.spec.ts
+- [x] T040 [P] [US2] Integration test for CSV import flow in app/tests/integration/csv-import.spec.ts
+- [x] T041 [P] [US2] E2E test for CSV import with progress tracking in app/tests/e2e/csv-import.spec.ts
 
 ### Implementation for User Story 2
 
-- [ ] T042 [P] [US2] Create ImportJob entity type definition in app/src/types/import-job.ts
-- [ ] T043 [US2] Implement CSV parsing service with papaparse in app/src/services/csv-service.ts
-- [ ] T044 [US2] Implement dictionary enrichment service with Free Dictionary API in app/src/services/dictionary-service.ts
-- [ ] T045 [US2] Create Web Worker for background dictionary enrichment in app/src/workers/definition-worker.ts
-- [ ] T046 [US2] Create useImportStore Pinia store in app/src/stores/useImportStore.ts
-- [ ] T047 [US2] Create ImportPage with file upload UI in app/src/pages/ImportPage.vue
-- [ ] T048 [US2] Create CSV import wizard component in app/src/components/import/ImportWizard.vue
-- [ ] T049 [US2] Create progress indicator component for import status in app/src/components/import/ImportProgress.vue
-- [ ] T050 [US2] Implement duplicate word detection and handling in app/src/services/import-service.ts
-- [ ] T051 [US2] Implement error handling for network failures and missing data in app/src/services/dictionary-service.ts
-- [ ] T052 [US2] Create import job repository for tracking import status in app/src/services/import-job-repository.ts
-- [ ] T053 [US2] Add routing for ImportPage in app/src/router/index.ts
-- [ ] T054 [US2] Implement retry mechanism for failed dictionary lookups in app/src/services/dictionary-service.ts
-- [ ] T055 [US2] Create import result summary component in app/src/components/import/ImportResult.vue
+- [x] T042 [P] [US2] Create ImportJob entity type definition in app/src/types/import-job.ts
+- [x] T043 [US2] Implement CSV parsing service with papaparse in app/src/services/csv-service.ts
+- [x] T044 [US2] Implement dictionary enrichment service with Free Dictionary API in app/src/services/dictionary-service.ts
+- [x] T045 [US2] Create Web Worker for background dictionary enrichment in app/src/workers/definition-worker.ts
+- [x] T046 [US2] Create useImportStore Pinia store in app/src/stores/useImportStore.ts
+- [x] T047 [US2] Create ImportPage with file upload UI in app/src/pages/ImportPage.vue
+- [x] T048 [US2] Create CSV import wizard component in app/src/components/import/ImportWizard.vue
+- [x] T049 [US2] Create progress indicator component for import status in app/src/components/import/ImportProgress.vue
+- [x] T050 [US2] Implement duplicate word detection and handling in app/src/services/import-service.ts
+- [x] T051 [US2] Implement error handling for network failures and missing data in app/src/services/dictionary-service.ts
+- [x] T052 [US2] Create import job repository for tracking import status in app/src/services/import-job-repository.ts
+- [x] T053 [US2] Add routing for ImportPage in app/src/router/index.ts
+- [x] T054 [US2] Implement retry mechanism for failed dictionary lookups in app/src/services/dictionary-service.ts
+- [x] T055 [US2] Create import result summary component in app/src/components/import/ImportResult.vue
 
 **Checkpoint**: At this point, User Stories 1 AND 2 should both work independently
 
