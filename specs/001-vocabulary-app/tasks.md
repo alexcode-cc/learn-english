@@ -138,26 +138,26 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T056 [P] [US3] Unit test for word CRUD operations in app/tests/unit/word-repository.spec.ts
-- [ ] T057 [P] [US3] Unit test for tag management in app/tests/unit/tag-service.spec.ts
-- [ ] T058 [P] [US3] Integration test for word editing flow in app/tests/integration/word-management.spec.ts
-- [ ] T059 [P] [US3] E2E test for add/edit/delete word workflow in app/tests/e2e/word-management.spec.ts
+- [x] T056 [P] [US3] Unit test for word CRUD operations in app/tests/unit/word-repository.spec.ts
+- [x] T057 [P] [US3] Unit test for tag management in app/tests/unit/tag-service.spec.ts
+- [x] T058 [P] [US3] Integration test for word editing flow in app/tests/integration/word-management.spec.ts
+- [x] T059 [P] [US3] E2E test for add/edit/delete word workflow in app/tests/e2e/word-management.spec.ts
 
 ### Implementation for User Story 3
 
-- [ ] T060 [P] [US3] Create Tag entity type definition in app/src/types/tag.ts
-- [ ] T061 [P] [US3] Create Note entity type definition in app/src/types/note.ts
-- [ ] T062 [US3] Implement tag repository with IndexedDB operations in app/src/services/tag-repository.ts
-- [ ] T063 [US3] Implement note repository with IndexedDB operations in app/src/services/note-repository.ts
-- [ ] T064 [US3] Create word form component for add/edit in app/src/components/cards/WordForm.vue
-- [ ] T065 [US3] Create tag selector component in app/src/components/cards/TagSelector.vue
-- [ ] T066 [US3] Create note editor component in app/src/components/cards/NoteEditor.vue
-- [ ] T067 [US3] Implement word filtering by tags and status in app/src/services/word-filter-service.ts
-- [ ] T068 [US3] Create DashboardPage with word list and filters in app/src/pages/DashboardPage.vue
-- [ ] T069 [US3] Implement word search functionality in app/src/composables/useWordSearch.ts
-- [ ] T070 [US3] Add routing for DashboardPage in app/src/router/index.ts
-- [ ] T071 [US3] Create word detail dialog/modal component in app/src/components/cards/WordDetailDialog.vue
-- [ ] T072 [US3] Implement word deletion with confirmation in app/src/services/word-deletion-service.ts
+- [x] T060 [P] [US3] Create Tag entity type definition in app/src/types/tag.ts
+- [x] T061 [P] [US3] Create Note entity type definition in app/src/types/note.ts
+- [x] T062 [US3] Implement tag repository with IndexedDB operations in app/src/services/tag-repository.ts
+- [x] T063 [US3] Implement note repository with IndexedDB operations in app/src/services/note-repository.ts
+- [x] T064 [US3] Create word form component for add/edit in app/src/components/cards/WordForm.vue
+- [x] T065 [US3] Create tag selector component in app/src/components/cards/TagSelector.vue
+- [x] T066 [US3] Create note editor component in app/src/components/cards/NoteEditor.vue
+- [x] T067 [US3] Implement word filtering by tags and status in app/src/services/word-filter-service.ts
+- [x] T068 [US3] Create DashboardPage with word list and filters in app/src/pages/DashboardPage.vue
+- [x] T069 [US3] Implement word search functionality in app/src/composables/useWordSearch.ts
+- [x] T070 [US3] Add routing for DashboardPage in app/src/router/index.ts
+- [x] T071 [US3] Create word detail dialog/modal component in app/src/components/cards/WordDetailDialog.vue
+- [x] T072 [US3] Implement word deletion with confirmation in app/src/services/word-deletion-service.ts
 
 **Checkpoint**: At this point, User Stories 1, 2, AND 3 should all work independently
 
