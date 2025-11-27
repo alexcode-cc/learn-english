@@ -1,0 +1,6 @@
+ID,單字,音標,發音音檔連結,詞類,解釋
+1,,/həˈloʊ/,https://example.com/hello.mp3,noun,空單字
+2,hello@world,/həˈloʊ/,https://example.com/hello.mp3,noun,無效格式
+3,valid,/test/,https://example.com/test.mp3,verb,有效單字
+4,no-definition,/test/,,verb,
+

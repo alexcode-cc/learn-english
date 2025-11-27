@@ -1,0 +1,5 @@
+ID,單字,音標,發音音檔連結,詞類,解釋
+1,hello,/həˈloʊ/,https://api.dictionaryapi.dev/media/pronunciations/en/hello-us.mp3,noun,你好
+2,world,/wɜːrld/,https://api.dictionaryapi.dev/media/pronunciations/en/world-us.mp3,noun,世界
+3,test,/test/,https://api.dictionaryapi.dev/media/pronunciations/en/test-us.mp3,verb,測試
+
