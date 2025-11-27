@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+cd app
+
+# Run linting
+npm run lint
+
+# Run formatting check
+npx prettier --check "src/**/*.{ts,tsx,vue,js,jsx,json,css,scss,md}" || {
+  echo "Code formatting issues found. Run 'npm run format' to fix."
+  exit 1
+}
+
