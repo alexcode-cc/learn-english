@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:e2e": "cross-env VITE_HOST=localhost VITE_E2E_TEST=true vite",
     "build": "vue-tsc && vite build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
@@ -12,9 +13,10 @@
     "test:unit:watch": "vitest",
     "test:component": "vitest run --config vitest.component.config.ts",
     "test:e2e": "playwright test",
-    "test:perf": "lighthouse-ci",
+    "test:perf": "lhci autorun",
     "convert:vocab": "node scripts/convert-vocab-to-csv.js",
-    "check:vocab": "node scripts/convert-vocab-to-csv.js --check"
+    "check:vocab": "node scripts/convert-vocab-to-csv.js --check",
+    "prepare": "husky"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
@@ -27,6 +29,8 @@
     "vuetify": "^3.5.10"
   },
   "devDependencies": {
+    "@lhci/cli": "^0.15.1",
+    "@playwright/test": "^1.57.0",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/vue": "^8.0.3",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
@@ -35,9 +39,11 @@
     "@vitest/ui": "^1.4.0",
     "@vue/test-utils": "^2.4.5",
     "@vue/tsconfig": "^0.5.1",
+    "cross-env": "^10.1.0",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.23.0",
     "fake-indexeddb": "^5.0.2",
+    "husky": "^9.1.7",
     "jsdom": "^24.0.0",
     "playwright": "^1.42.0",
     "prettier": "^3.2.5",
