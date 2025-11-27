@@ -7,6 +7,7 @@ import type { LearningSession } from '@/types/learning-session'
 import type { Quiz } from '@/types/quiz'
 import type { QuizQuestion } from '@/types/quiz-question'
 import type { ImportJob } from '@/types/import-job'
+import type { UserProgress } from '@/types/user-progress'
 
 export interface LearnEnglishDB extends DBSchema {
   words: {
@@ -50,15 +51,7 @@ export interface LearnEnglishDB extends DBSchema {
   }
 }
 
-export interface UserProgress {
-  id: string
-  totalWords: number
-  masteredWords: number
-  streakDays: number
-  totalStudyMinutes: number
-  lastActivityAt: string
-  heatmap: Record<string, number>
-}
+// UserProgress type is now imported from @/types/user-progress
 
 const DB_NAME = 'learn-english-db'
 const DB_VERSION = 1
