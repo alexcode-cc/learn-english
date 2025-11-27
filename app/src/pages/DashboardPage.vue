@@ -405,13 +405,36 @@ async function deleteWord(): Promise<void> {
 
   deleting.value = true
   try {
+    // wordDeletionService.deleteWord() already deletes from database
+    // and handles all related cleanup (notes, tags, etc.)
     await wordDeletionService.deleteWord(wordToDelete.value.id)
-    await wordsStore.deleteWord(wordToDelete.value.id)
+    
     showDeleteDialog.value = false
+    const deletedWordId = wordToDelete.value.id
     wordToDelete.value = null
-    await loadData()
+    
+    // Update store to remove word from local state immediately
+    // This provides instant feedback while data reloads
+    wordsStore.words = wordsStore.words.filter((w) => w.id !== deletedWordId)
+    wordsStore.totalCount = wordsStore.words.length
+    
+    // Reload data to ensure consistency with database
+    // Force reload all words to ensure we have the latest data
+    loading.value = true
+    try {
+      await wordsStore.loadAllWords(true) // Force reload
+      await loadTags()
+    } catch (error) {
+      logger.error('Failed to reload data after deletion', { error })
+      // Fallback to regular loadData
+      await loadData()
+    } finally {
+      loading.value = false
+    }
   } catch (error) {
     logger.error('Failed to delete word', { error })
+    // Reload data even on error to ensure UI is consistent
+    await loadData()
   } finally {
     deleting.value = false
   }

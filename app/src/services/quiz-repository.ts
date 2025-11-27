@@ -51,7 +51,8 @@ export class QuizRepository {
 
   async getQuestionsByQuizId(quizId: string): Promise<QuizQuestion[]> {
     const db = await this.dbPromise
-    const index = db.transaction('quizQuestions').store.index('by-quiz-id')
+    const tx = db.transaction('quizQuestions', 'readonly')
+    const index = tx.store.index('by-quiz-id')
     return index.getAll(quizId)
   }
 

@@ -43,6 +43,7 @@ export const useWordsStore = defineStore('words', () => {
     try {
       // 先載入第一頁，讓 UI 可以快速顯示
       const result = await wordRepository.getPaginated(0, PAGE_SIZE)
+      // Clear existing words before loading new ones to avoid duplicates
       words.value = result.items
       totalCount.value = result.total
       hasMore.value = result.hasMore
@@ -152,8 +153,8 @@ export const useWordsStore = defineStore('words', () => {
   /**
    * 強制載入所有單字（用於需要完整資料的操作）
    */
-  async function loadAllWords(): Promise<void> {
-    if (isFullyLoaded.value) {
+  async function loadAllWords(force: boolean = false): Promise<void> {
+    if (isFullyLoaded.value && !force) {
       return
     }
     
@@ -161,11 +162,12 @@ export const useWordsStore = defineStore('words', () => {
     error.value = null
     
     try {
+      // Always fetch fresh data from database
       words.value = await wordRepository.getAll()
       totalCount.value = words.value.length
       hasMore.value = false
       isFullyLoaded.value = true
-      logger.info('All words force loaded', { count: words.value.length })
+      logger.info('All words force loaded', { count: words.value.length, forced: force })
     } catch (err) {
       const appError = handleError(err)
       error.value = appError.message
