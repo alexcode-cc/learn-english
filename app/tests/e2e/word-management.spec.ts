@@ -262,172 +262,295 @@ test.describe('Word Management E2E', () => {
     await expect(firstCard).toBeVisible({ timeout: 3000 })
   })
 
-  test('should delete a word', async ({ seedTestData: page }) => {
+  test('should delete a word via card menu', async ({ seedTestData: page }) => {
     // Wait for page to be ready
     await page.waitForLoadState('domcontentloaded')
-    await page.waitForTimeout(2000) // Give Vue time to render
-    await page.waitForTimeout(2000)
+    await page.waitForSelector('text=搜尋單字', { timeout: 10000 })
+    await page.waitForTimeout(1000) // Give Vue time to render
 
-    // Find first word card (should exist due to seeded data)
+    // Get initial card count
+    const initialCards = page.locator('.word-card')
+    const initialCardCount = await initialCards.count()
+    expect(initialCardCount).toBeGreaterThan(0)
+
+    // Find first word card
     const firstCard = page.locator('.word-card').first()
     await expect(firstCard).toBeVisible({ timeout: 5000 })
 
     // Get word lemma before deletion
-    const wordLemma = await firstCard.locator('.text-h6, [class*="text-h6"]').first().textContent()
+    const wordLemma = await firstCard.locator('.v-card-title .text-h6, .v-card-title span').first().textContent()
+    expect(wordLemma).toBeTruthy()
+    const trimmedLemma = wordLemma!.trim()
 
-    // Open menu - the three dots button is in the card title area
-    // Try multiple selectors to find the menu button
-    const menuButtonSelectors = [
-      firstCard.locator('button').filter({ has: page.locator('[class*="mdi-dots-vertical"]') }),
-      firstCard.locator('button[aria-haspopup="menu"]'),
-      firstCard.locator('button').filter({ has: page.locator('i[class*="mdi-dots"]') }),
-      firstCard.locator('.v-card-title button').last(), // Usually the menu button is the last button in title
-      firstCard.locator('button').filter({ hasText: '' }) // Menu button usually has no text
-    ]
+    // Find and click the three dots menu button in card title
+    // The button is inside v-card-title with mdi-dots-vertical icon
+    const menuButton = firstCard.locator('.v-card-title button').filter({ 
+      has: page.locator('i.mdi-dots-vertical, [class*="mdi-dots-vertical"]')
+    }).first()
     
-    let menuButton = null
-    let menuExists = false
+    await expect(menuButton).toBeVisible({ timeout: 3000 })
     
-    for (const selector of menuButtonSelectors) {
-      const count = await selector.count()
-      if (count > 0) {
-        const button = selector.first()
-        const isVisible = await button.isVisible().catch(() => false)
-        if (isVisible) {
-          menuButton = button
-          menuExists = true
-          break
-        }
-      }
-    }
-    
-    // If still not found, check all buttons in card title
-    if (!menuExists) {
-      const cardTitle = firstCard.locator('.v-card-title, [class*="card-title"]')
-      const titleButtons = cardTitle.locator('button')
-      const titleButtonCount = await titleButtons.count()
-      
-      for (let i = 0; i < titleButtonCount; i++) {
-        const button = titleButtons.nth(i)
-        const isVisible = await button.isVisible().catch(() => false)
-        if (!isVisible) continue
-        
-        // Check if button has dots icon
-        const buttonHtml = await button.innerHTML().catch(() => '')
-        if (buttonHtml.includes('mdi-dots-vertical') || buttonHtml.includes('dots-vertical')) {
-          menuButton = button
-          menuExists = true
-          break
-        }
-      }
-    }
-    
-    expect(menuExists).toBe(true)
-    expect(menuButton).not.toBeNull()
-    
-    // Click menu button
-    await menuButton!.click()
+    // Click menu button with stop propagation to prevent card click
+    await menuButton.click({ force: true })
     
     // Wait for menu to open
-    await page.waitForTimeout(500)
+    await page.waitForTimeout(300)
     
-    // Wait for menu items to appear
-    await page.waitForSelector('.v-list-item, [role="menuitem"]', { timeout: 3000 }).catch(() => {
-      // Menu might already be visible
-    })
+    // Wait for menu items to appear - Vuetify menu uses v-list
+    await page.waitForSelector('.v-list-item', { timeout: 3000 })
 
-    // Click delete option - try multiple selectors
-    const deleteOptionSelectors = [
-      page.getByRole('listitem').filter({ hasText: /刪除/ }),
-      page.locator('.v-list-item').filter({ hasText: /刪除/ }),
-      page.locator('[role="menuitem"]').filter({ hasText: /刪除/ }),
-      page.locator('.v-list-item-title').filter({ hasText: /刪除/ })
-    ]
-    
-    let deleteOptionClicked = false
-    for (const selector of deleteOptionSelectors) {
-      const count = await selector.count()
-      if (count > 0) {
-        const option = selector.first()
-        const isVisible = await option.isVisible().catch(() => false)
-        if (isVisible) {
-          await option.click()
-          deleteOptionClicked = true
-          break
-        }
-      }
-    }
-    
-    // If still not found, check all list items
-    if (!deleteOptionClicked) {
-      const allListItems = page.locator('.v-list-item, [role="menuitem"]')
-      const itemCount = await allListItems.count()
-      
-      for (let i = 0; i < itemCount; i++) {
-        const item = allListItems.nth(i)
-        const itemText = await item.textContent().catch(() => '')
-        if (itemText && itemText.includes('刪除')) {
-          await item.click()
-          deleteOptionClicked = true
-          break
-        }
-      }
-    }
-    
-    expect(deleteOptionClicked).toBe(true)
+    // Click delete option - look for list item with "刪除" text
+    const deleteOption = page.locator('.v-list-item').filter({ hasText: /刪除/ }).first()
+    await expect(deleteOption).toBeVisible({ timeout: 2000 })
+    await deleteOption.click()
 
     // Wait for confirmation dialog
     await page.waitForSelector('text=確認刪除', { timeout: 5000 })
+    await expect(page.locator('text=確認刪除')).toBeVisible()
 
-    // Confirm deletion - use exact match and filter by dialog context
+    // Confirm deletion - find delete button in dialog
     const dialog = page.locator('[role="dialog"]').filter({ hasText: '確認刪除' })
     const confirmButton = dialog.getByRole('button', { name: '刪除', exact: true })
     
-    // Wait for button to be enabled (not loading)
+    // Wait for button to be enabled
     await expect(confirmButton).toBeEnabled({ timeout: 2000 })
     
-    // Get the initial card count before deletion
-    const initialCards = page.locator('.word-card')
-    const initialCardCount = await initialCards.count()
-    
+    // Click confirm button
     await confirmButton.click()
 
-    // Wait for dialog to close
-    await page.waitForSelector('text=確認刪除', { state: 'hidden', timeout: 5000 })
+    // Wait for delete button loading state to complete
+    // The button has :loading="deleting" which should become enabled again
+    await expect(async () => {
+      const dialogVisible = await page.locator('text=確認刪除').isVisible().catch(() => false)
+      if (dialogVisible) {
+        const button = dialog.getByRole('button', { name: '刪除', exact: true })
+        const isDisabled = await button.isDisabled().catch(() => false)
+        if (isDisabled) {
+          throw new Error('Delete operation still in progress')
+        }
+      }
+    }).toPass({ timeout: 10000, intervals: [200, 500, 1000] })
+
+    // Wait for confirmation dialog to close
+    await expect(page.locator('text=確認刪除')).not.toBeVisible({ timeout: 5000 })
     
-    // Wait for loading indicator to disappear (if any)
-    await page.waitForSelector('.v-progress-linear', { state: 'hidden', timeout: 3000 }).catch(() => {
-      // No loading indicator, that's fine
+    // Wait for loading indicator to appear and then disappear
+    // DashboardPage shows v-progress-linear when loading.value is true
+    await page.waitForSelector('.v-progress-linear', { timeout: 2000 }).catch(() => {
+      // Loading might not show, continue
+    })
+    await page.waitForSelector('.v-progress-linear', { state: 'hidden', timeout: 10000 }).catch(() => {
+      // Loading indicator might not exist, continue anyway
     })
     
-    // Wait for the word to be removed from the DOM
-    // The card count should decrease by 1
+    // Wait for page to be stable (no network requests)
+    await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {
+      // Network idle might not happen, continue anyway
+    })
+    
+    // Wait a bit more for Vue reactivity to fully update
+    await page.waitForTimeout(1500)
+    
+    // Wait for data to reload - check that card count decreased
+    // First wait for loading to complete, then verify count
     await expect(async () => {
+      // Check if loading is still in progress
+      const isLoading = await page.locator('.v-progress-linear').isVisible().catch(() => false)
+      if (isLoading) {
+        throw new Error('Data is still loading')
+      }
+      
+      // Wait a bit for DOM to update after loading completes
+      await page.waitForTimeout(300)
+      
       const currentCards = page.locator('.word-card')
       const currentCardCount = await currentCards.count()
-      expect(currentCardCount).toBe(initialCardCount - 1)
-    }).toPass({ timeout: 5000 })
+      if (currentCardCount !== initialCardCount - 1) {
+        throw new Error(`Expected ${initialCardCount - 1} cards but found ${currentCardCount}`)
+      }
+    }).toPass({ timeout: 25000, intervals: [500, 1000, 2000] })
 
-    // Verify word is removed - check specifically in word cards
-    if (wordLemma) {
-      const trimmedLemma = wordLemma.trim()
+    // Verify the specific word is removed from DOM
+    // Use a more reliable method: collect all titles first and check for duplicates
+    await expect(async () => {
+      // Check if loading is still in progress
+      const isLoading = await page.locator('.v-progress-linear').isVisible().catch(() => false)
+      if (isLoading) {
+        throw new Error('Data is still loading')
+      }
       
-      // Double-check: verify the specific word is not in any card title
-      const wordCardTitles = page.locator('.word-card .text-h6, .word-card [class*="text-h6"]')
-      const titleCount = await wordCardTitles.count()
+      // Wait a bit for DOM to update after loading completes
+      await page.waitForTimeout(300)
       
-      let foundDeletedWord = false
-      for (let i = 0; i < titleCount; i++) {
-        const title = wordCardTitles.nth(i)
-        const titleText = await title.textContent()
-        if (titleText?.trim() === trimmedLemma) {
-          foundDeletedWord = true
-          break
+      const wordCards = page.locator('.word-card')
+      const cardCount = await wordCards.count()
+      
+      // First verify count is correct
+      if (cardCount !== initialCardCount - 1) {
+        throw new Error(`Card count mismatch: expected ${initialCardCount - 1}, found ${cardCount}`)
+      }
+      
+      // Collect all titles with their indices to detect duplicates
+      const allTitles: Array<{ index: number; title: string }> = []
+      for (let i = 0; i < cardCount; i++) {
+        const card = wordCards.nth(i)
+        const titleElement = card.locator('.v-card-title .text-h6, .v-card-title span').first()
+        const titleText = await titleElement.textContent().catch(() => '')
+        if (titleText) {
+          allTitles.push({ index: i, title: titleText.trim() })
         }
       }
       
-      expect(foundDeletedWord).toBe(false)
-    }
+      // Check for the deleted word
+      const foundDeleted = allTitles.find(t => t.title === trimmedLemma)
+      if (foundDeleted) {
+        const titlesList = allTitles.map(t => t.title).join(', ')
+        throw new Error(`Deleted word "${trimmedLemma}" still found in card ${foundDeleted.index}. Current titles: ${titlesList}`)
+      }
+    }).toPass({ timeout: 30000, intervals: [1000, 2000, 3000] })
+  })
+
+  test('should delete a word via detail dialog', async ({ seedTestData: page }) => {
+    // Wait for page to be ready
+    await page.waitForLoadState('domcontentloaded')
+    await page.waitForSelector('text=搜尋單字', { timeout: 10000 })
+    await page.waitForTimeout(1000)
+
+    // Get initial card count
+    const initialCards = page.locator('.word-card')
+    const initialCardCount = await initialCards.count()
+    expect(initialCardCount).toBeGreaterThan(0)
+
+    // Find first word card
+    const firstCard = page.locator('.word-card').first()
+    await expect(firstCard).toBeVisible({ timeout: 5000 })
+
+    // Get word lemma before deletion
+    const wordLemma = await firstCard.locator('.v-card-title .text-h6, .v-card-title span').first().textContent()
+    expect(wordLemma).toBeTruthy()
+    const trimmedLemma = wordLemma!.trim()
+
+    // Click card to open detail dialog
+    await firstCard.click()
+    
+    // Wait for detail dialog to open
+    const dialog = page.locator('[role="dialog"]').first()
+    await expect(dialog).toBeVisible({ timeout: 5000 })
+    
+    // Verify dialog shows the word - check inside dialog only
+    await expect(dialog.locator('.text-h5, .text-h6').filter({ hasText: trimmedLemma })).toBeVisible({ timeout: 3000 })
+
+    // Find and click delete button in dialog
+    const deleteButton = page.locator('[role="dialog"]').getByRole('button', { name: '刪除', exact: true })
+    await expect(deleteButton).toBeVisible({ timeout: 2000 })
+    await deleteButton.click()
+
+    // Wait for confirmation dialog
+    await page.waitForSelector('text=確認刪除', { timeout: 5000 })
+    await expect(page.locator('text=確認刪除')).toBeVisible()
+
+    // Confirm deletion
+    const confirmDialog = page.locator('[role="dialog"]').filter({ hasText: '確認刪除' })
+    const confirmButton = confirmDialog.getByRole('button', { name: '刪除', exact: true })
+    
+    await expect(confirmButton).toBeEnabled({ timeout: 2000 })
+    
+    // Click confirm button and wait for loading state
+    await confirmButton.click()
+    
+    // Wait for delete button loading state to complete
+    // The button has :loading="deleting" which should become enabled again
+    await expect(async () => {
+      const dialogVisible = await page.locator('text=確認刪除').isVisible().catch(() => false)
+      if (dialogVisible) {
+        const button = confirmDialog.getByRole('button', { name: '刪除', exact: true })
+        const isDisabled = await button.isDisabled().catch(() => false)
+        if (isDisabled) {
+          throw new Error('Delete operation still in progress')
+        }
+      }
+    }).toPass({ timeout: 10000, intervals: [200, 500, 1000] })
+
+    // Wait for confirmation dialog to close
+    await expect(page.locator('text=確認刪除')).not.toBeVisible({ timeout: 5000 })
+    
+    // Wait for detail dialog to close as well
+    await expect(dialog).not.toBeVisible({ timeout: 3000 }).catch(() => {
+      // Dialog might already be closed
+    })
+    
+    // Wait for loading indicator to appear and then disappear
+    // DashboardPage shows v-progress-linear when loading.value is true
+    await page.waitForSelector('.v-progress-linear', { timeout: 2000 }).catch(() => {
+      // Loading might not show, continue
+    })
+    await page.waitForSelector('.v-progress-linear', { state: 'hidden', timeout: 10000 }).catch(() => {
+      // Loading indicator might not exist, continue anyway
+    })
+    
+    // Wait for page to be stable (no network requests)
+    await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {
+      // Network idle might not happen, continue anyway
+    })
+    
+    // Wait for data to reload - check that card count decreased
+    // First wait for loading to complete, then verify count
+    await expect(async () => {
+      // Check if loading is still in progress
+      const isLoading = await page.locator('.v-progress-linear').isVisible().catch(() => false)
+      if (isLoading) {
+        throw new Error('Data is still loading')
+      }
+      
+      // Wait a bit for DOM to update after loading completes
+      await page.waitForTimeout(300)
+      
+      const currentCards = page.locator('.word-card')
+      const currentCardCount = await currentCards.count()
+      if (currentCardCount !== initialCardCount - 1) {
+        throw new Error(`Expected ${initialCardCount - 1} cards but found ${currentCardCount}`)
+      }
+    }).toPass({ timeout: 25000, intervals: [500, 1000, 2000] })
+
+    // Verify the specific word is removed - wait longer and check more carefully
+    // First wait a bit more for DOM to fully update
+    await page.waitForTimeout(1000)
+    
+    await expect(async () => {
+      // Check if loading is still in progress
+      const isLoading = await page.locator('.v-progress-linear').isVisible().catch(() => false)
+      if (isLoading) {
+        throw new Error('Data is still loading')
+      }
+      
+      // Wait a bit for DOM to update after loading completes
+      await page.waitForTimeout(300)
+      
+      const wordCards = page.locator('.word-card')
+      const cardCount = await wordCards.count()
+      
+      // First verify count is correct
+      if (cardCount !== initialCardCount - 1) {
+        throw new Error(`Card count mismatch: expected ${initialCardCount - 1}, found ${cardCount}`)
+      }
+      
+      // Then check each card for the deleted word
+      // Use a more reliable method: get all card titles at once
+      const allTitles: string[] = []
+      for (let i = 0; i < cardCount; i++) {
+        const card = wordCards.nth(i)
+        const titleElement = card.locator('.v-card-title .text-h6, .v-card-title span').first()
+        const titleText = await titleElement.textContent().catch(() => '')
+        if (titleText) {
+          allTitles.push(titleText.trim())
+        }
+      }
+      
+      // Check if deleted word is in the list
+      if (allTitles.includes(trimmedLemma)) {
+        throw new Error(`Deleted word "${trimmedLemma}" still found in cards. Current titles: ${allTitles.join(', ')}`)
+      }
+    }).toPass({ timeout: 30000, intervals: [1000, 2000, 3000] })
   })
 
   test('should search for words', async ({ seedTestData: page }) => {
@@ -567,4 +690,6 @@ test.describe('Word Management E2E', () => {
     await expect(dialog.first()).toBeVisible({ timeout: 3000 })
   })
 })
+
+
 
