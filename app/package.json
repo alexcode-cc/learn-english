@@ -12,7 +12,9 @@
     "test:unit:watch": "vitest",
     "test:component": "vitest run --config vitest.component.config.ts",
     "test:e2e": "playwright test",
-    "test:perf": "lighthouse-ci"
+    "test:perf": "lighthouse-ci",
+    "convert:vocab": "node scripts/convert-vocab-to-csv.js",
+    "check:vocab": "node scripts/convert-vocab-to-csv.js --check"
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
