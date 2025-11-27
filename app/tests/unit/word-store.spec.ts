@@ -8,11 +8,13 @@ import { wordRepository } from '@/services/word-repository'
 vi.mock('@/services/word-repository', () => ({
   wordRepository: {
     getAll: vi.fn(),
+    getPaginated: vi.fn(),
     create: vi.fn(),
     update: vi.fn(),
     delete: vi.fn(),
     getById: vi.fn(),
-    searchByLemma: vi.fn()
+    searchByLemma: vi.fn(),
+    count: vi.fn()
   }
 }))
 
@@ -29,12 +31,19 @@ describe('useWordsStore', () => {
       createWord('world')
     ]
 
-    vi.mocked(wordRepository.getAll).mockResolvedValue(mockWords)
+    // Mock getPaginated for the new pagination-based loading
+    vi.mocked(wordRepository.getPaginated).mockResolvedValue({
+      items: mockWords,
+      total: 2,
+      hasMore: false
+    })
 
     await store.loadWords()
 
     expect(store.words.length).toBe(2)
     expect(store.loading).toBe(false)
+    expect(store.totalCount).toBe(2)
+    expect(store.hasMore).toBe(false)
   })
 
   it('should add a word', async () => {
