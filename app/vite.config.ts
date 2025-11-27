@@ -40,15 +40,26 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
   },
+  worker: {
+    format: 'es'
+  },
   server: {
     host: 'learn.english.org',
     port: 5173,
-    https: {
-      key: readFileSync(resolve(__dirname, 'ssl/learn.english.org/private.key')),
-      cert: readFileSync(resolve(__dirname, 'ssl/learn.english.org/certificate.crt'))
-      // If you need to include CA bundle, uncomment the line below:
-      // ca: readFileSync(resolve(__dirname, 'ssl/learn.english.org/ca_bundle.crt'))
-    }
+    // Use HTTPS only if not in E2E test mode and SSL certs exist
+    ...(process.env.VITE_E2E_TEST !== 'true' && (() => {
+      try {
+        return {
+          https: {
+            key: readFileSync(resolve(__dirname, 'ssl/learn.english.org/private.key')),
+            cert: readFileSync(resolve(__dirname, 'ssl/learn.english.org/certificate.crt'))
+            // If you need to include CA bundle, uncomment the line below:
+            // ca: readFileSync(resolve(__dirname, 'ssl/learn.english.org/ca_bundle.crt'))
+          }
+        }
+      } catch {
+        // SSL certs not found, use HTTP
+        return {}
+      }
+    })())
   }
-})
-
