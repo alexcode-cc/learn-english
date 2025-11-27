@@ -43,3 +43,4 @@ ssl/
 # remove data files
 public/data/
 
+.lighthouseci/
