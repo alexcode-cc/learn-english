@@ -173,28 +173,28 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T073 [P] [US4] Unit test for spaced repetition engine in app/tests/unit/review-engine.spec.ts
-- [ ] T074 [P] [US4] Unit test for quiz generation service in app/tests/unit/quiz-service.spec.ts
-- [ ] T075 [P] [US4] Integration test for review flow in app/tests/integration/review-flow.spec.ts
-- [ ] T076 [P] [US4] E2E test for quiz completion workflow in app/tests/e2e/quiz.spec.ts
+- [x] T073 [P] [US4] Unit test for spaced repetition engine in app/tests/unit/review-engine.spec.ts
+- [x] T074 [P] [US4] Unit test for quiz generation service in app/tests/unit/quiz-service.spec.ts
+- [x] T075 [P] [US4] Integration test for review flow in app/tests/integration/review-flow.spec.ts
+- [x] T076 [P] [US4] E2E test for quiz completion workflow in app/tests/e2e/quiz.spec.ts
 
 ### Implementation for User Story 4
 
-- [ ] T077 [P] [US4] Create Quiz entity type definition in app/src/types/quiz.ts
-- [ ] T078 [P] [US4] Create QuizQuestion entity type definition in app/src/types/quiz-question.ts
-- [ ] T079 [P] [US4] Create LearningSession entity type definition in app/src/types/learning-session.ts
-- [ ] T080 [US4] Implement spaced repetition review engine in app/src/services/review-engine.ts
-- [ ] T081 [US4] Implement quiz generation service with multiple modes in app/src/services/quiz-service.ts
-- [ ] T082 [US4] Create quiz repository with IndexedDB operations in app/src/services/quiz-repository.ts
-- [ ] T083 [US4] Create ReviewPage with review word list in app/src/pages/ReviewPage.vue
-- [ ] T084 [US4] Create quiz component for multiple-choice mode in app/src/components/review/QuizMultipleChoice.vue
-- [ ] T085 [US4] Create quiz component for fill-in mode in app/src/components/review/QuizFillIn.vue
-- [ ] T086 [US4] Create quiz component for spelling mode in app/src/components/review/QuizSpelling.vue
-- [ ] T087 [US4] Create quiz result component with score display in app/src/components/review/QuizResult.vue
-- [ ] T088 [US4] Implement quiz answer submission and scoring in app/src/services/quiz-scoring-service.ts
-- [ ] T089 [US4] Add routing for ReviewPage in app/src/router/index.ts
-- [ ] T090 [US4] Create review reminder notification system in app/src/composables/useReviewReminder.ts
-- [ ] T091 [US4] Implement learning session tracking in app/src/services/learning-session-service.ts
+- [x] T077 [P] [US4] Create Quiz entity type definition in app/src/types/quiz.ts
+- [x] T078 [P] [US4] Create QuizQuestion entity type definition in app/src/types/quiz-question.ts
+- [x] T079 [P] [US4] Create LearningSession entity type definition in app/src/types/learning-session.ts
+- [x] T080 [US4] Implement spaced repetition review engine in app/src/services/review-engine.ts
+- [x] T081 [US4] Implement quiz generation service with multiple modes in app/src/services/quiz-service.ts
+- [x] T082 [US4] Create quiz repository with IndexedDB operations in app/src/services/quiz-repository.ts
+- [x] T083 [US4] Create ReviewPage with review word list in app/src/pages/ReviewPage.vue
+- [x] T084 [US4] Create quiz component for multiple-choice mode in app/src/components/review/QuizMultipleChoice.vue
+- [x] T085 [US4] Create quiz component for fill-in mode in app/src/components/review/QuizFillIn.vue
+- [x] T086 [US4] Create quiz component for spelling mode in app/src/components/review/QuizSpelling.vue
+- [x] T087 [US4] Create quiz result component with score display in app/src/components/review/QuizResult.vue
+- [x] T088 [US4] Implement quiz answer submission and scoring in app/src/services/quiz-scoring-service.ts
+- [x] T089 [US4] Add routing for ReviewPage in app/src/router/index.ts
+- [x] T090 [US4] Create review reminder notification system in app/src/composables/useReviewReminder.ts
+- [x] T091 [US4] Implement learning session tracking in app/src/services/learning-session-service.ts
 
 **Checkpoint**: At this point, User Stories 1, 2, 3, AND 4 should all work independently
 

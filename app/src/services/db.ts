@@ -3,6 +3,10 @@ import type { Word } from '@/types/word'
 import type { WordSet } from '@/types/word-set'
 import type { Tag } from '@/types/tag'
 import type { Note } from '@/types/note'
+import type { LearningSession } from '@/types/learning-session'
+import type { Quiz } from '@/types/quiz'
+import type { QuizQuestion } from '@/types/quiz-question'
+import type { ImportJob } from '@/types/import-job'
 
 export interface LearnEnglishDB extends DBSchema {
   words: {
@@ -46,34 +50,6 @@ export interface LearnEnglishDB extends DBSchema {
   }
 }
 
-export interface LearningSession {
-  id: string
-  type: 'study' | 'review'
-  wordIds: string[]
-  startedAt: string
-  endedAt: string | null
-  durationMs: number
-  actions: unknown[]
-}
-
-export interface Quiz {
-  id: string
-  mode: 'multiple-choice' | 'fill-in' | 'spell'
-  createdAt: string
-  questionIds: string[]
-  scorePercent: number
-}
-
-export interface QuizQuestion {
-  id: string
-  quizId: string
-  prompt: string
-  choices: string[]
-  correctAnswer: string
-  userAnswer: string
-  isCorrect: boolean
-}
-
 export interface UserProgress {
   id: string
   totalWords: number
@@ -82,17 +58,6 @@ export interface UserProgress {
   totalStudyMinutes: number
   lastActivityAt: string
   heatmap: Record<string, number>
-}
-
-export interface ImportJob {
-  id: string
-  filename: string
-  totalWords: number
-  processedWords: number
-  status: 'pending' | 'running' | 'failed' | 'completed'
-  errors: Array<{ row: number; message: string }>
-  startedAt: string
-  endedAt: string | null
 }
 
 const DB_NAME = 'learn-english-db'
