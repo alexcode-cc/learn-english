@@ -66,6 +66,11 @@ export class WordRepository {
 
   async update(word: Word): Promise<void> {
     const db = await this.dbPromise
+    // Check if word exists before updating
+    const existing = await db.get('words', word.id)
+    if (!existing) {
+      throw new Error(`Word with id ${word.id} not found`)
+    }
     await db.put('words', word)
   }
 
