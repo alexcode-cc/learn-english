@@ -91,3 +91,6 @@ Thumbs.db
 connect.lock
 typings/
 
+
+# SSL Certificates
+app/ssl/
