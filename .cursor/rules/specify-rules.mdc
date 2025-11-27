@@ -1,0 +1,33 @@
+# learn-english Development Guidelines
+
+Auto-generated from all feature plans. Last updated: 2025-11-25
+
+## Active Technologies
+- TypeScript 5.x + Vue 3.4 (Composition API + `<script setup>`) + Vite 5, Vuetify 3, Pinia, Vue Router, `@mdi/font`, `papaparse` (CSV), `idb` (IndexedDB helper), `vite-plugin-pwa`, `axios` for dictionary lookups, Web Speech / dictionary audio endpoints (001-vocabulary-app)
+- IndexedDB via `idb`, hydrated into Pinia stores with background sync; localStorage only for lightweight feature flags (001-vocabulary-app)
+
+- [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION] (001-vocabulary-app)
+
+## Project Structure
+
+```text
+backend/
+frontend/
+tests/
+```
+
+## Commands
+
+cd src; pytest; ruff check .
+
+## Code Style
+
+[e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]: Follow standard conventions
+
+## Recent Changes
+- 001-vocabulary-app: Added TypeScript 5.x + Vue 3.4 (Composition API + `<script setup>`) + Vite 5, Vuetify 3, Pinia, Vue Router, `@mdi/font`, `papaparse` (CSV), `idb` (IndexedDB helper), `vite-plugin-pwa`, `axios` for dictionary lookups, Web Speech / dictionary audio endpoints
+
+- 001-vocabulary-app: Added [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION] + [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]
+
+<!-- MANUAL ADDITIONS START -->
+<!-- MANUAL ADDITIONS END -->
