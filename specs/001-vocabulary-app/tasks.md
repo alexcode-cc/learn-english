@@ -210,24 +210,24 @@
 
 > **NOTE: Write these tests FIRST, ensure they FAIL before implementation**
 
-- [ ] T092 [P] [US5] Unit test for progress calculation service in app/tests/unit/progress-service.spec.ts
-- [ ] T093 [P] [US5] Unit test for statistics aggregation in app/tests/unit/statistics-service.spec.ts
-- [ ] T094 [P] [US5] Integration test for progress tracking flow in app/tests/integration/progress-tracking.spec.ts
-- [ ] T095 [P] [US5] E2E test for progress dashboard in app/tests/e2e/progress-dashboard.spec.ts
+- [x] T092 [P] [US5] Unit test for progress calculation service in app/tests/unit/progress-service.spec.ts
+- [x] T093 [P] [US5] Unit test for statistics aggregation in app/tests/unit/statistics-service.spec.ts
+- [x] T094 [P] [US5] Integration test for progress tracking flow in app/tests/integration/progress-tracking.spec.ts
+- [x] T095 [P] [US5] E2E test for progress dashboard in app/tests/e2e/progress-dashboard.spec.ts
 
 ### Implementation for User Story 5
 
-- [ ] T096 [P] [US5] Create UserProgress entity type definition in app/src/types/user-progress.ts
-- [ ] T097 [US5] Implement progress calculation service in app/src/services/progress-service.ts
-- [ ] T098 [US5] Create useProgressStore Pinia store in app/src/stores/useProgressStore.ts
-- [ ] T099 [US5] Create progress summary component with key metrics in app/src/components/progress/ProgressSummary.vue
-- [ ] T100 [US5] Create learning trend chart component in app/src/components/progress/LearningTrendChart.vue
-- [ ] T101 [US5] Create quiz score trend chart component in app/src/components/progress/QuizScoreChart.vue
-- [ ] T102 [US5] Create learning heatmap calendar component in app/src/components/progress/HeatmapCalendar.vue
-- [ ] T103 [US5] Create ProgressPage with all statistics components in app/src/pages/ProgressPage.vue
-- [ ] T104 [US5] Implement progress data aggregation from learning sessions in app/src/services/statistics-service.ts
-- [ ] T105 [US5] Add routing for ProgressPage in app/src/router/index.ts
-- [ ] T106 [US5] Implement streak calculation logic in app/src/services/streak-service.ts
+- [x] T096 [P] [US5] Create UserProgress entity type definition in app/src/types/user-progress.ts
+- [x] T097 [US5] Implement progress calculation service in app/src/services/progress-service.ts
+- [x] T098 [US5] Create useProgressStore Pinia store in app/src/stores/useProgressStore.ts
+- [x] T099 [US5] Create progress summary component with key metrics in app/src/components/progress/ProgressSummary.vue
+- [x] T100 [US5] Create learning trend chart component in app/src/components/progress/LearningTrendChart.vue
+- [x] T101 [US5] Create quiz score trend chart component in app/src/components/progress/QuizScoreChart.vue
+- [x] T102 [US5] Create learning heatmap calendar component in app/src/components/progress/HeatmapCalendar.vue
+- [x] T103 [US5] Create ProgressPage with all statistics components in app/src/pages/ProgressPage.vue
+- [x] T104 [US5] Implement progress data aggregation from learning sessions in app/src/services/statistics-service.ts
+- [x] T105 [US5] Add routing for ProgressPage in app/src/router/index.ts
+- [x] T106 [US5] Implement streak calculation logic in app/src/services/streak-service.ts
 
 **Checkpoint**: All user stories should now be independently functional
 
