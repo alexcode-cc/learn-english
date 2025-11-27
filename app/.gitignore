@@ -40,3 +40,6 @@ test-results
 # SSL Certificates
 ssl/
 
+# remove data files
+public/data/
+
