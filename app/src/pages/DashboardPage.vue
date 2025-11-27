@@ -349,7 +349,8 @@ async function saveWord(): Promise<void> {
 
   try {
     const data = formData.value
-    if (!data.lemma || !data.definitionZh || !data.definitionEn) {
+    // 必要欄位：單字、詞性、中文解釋
+    if (!data.lemma || !data.partOfSpeech || !data.definitionZh) {
       return
     }
 
@@ -358,18 +359,28 @@ async function saveWord(): Promise<void> {
       const updatedWord: Word = {
         ...editingWord.value,
         ...data,
-        id: editingWord.value.id
+        id: editingWord.value.id,
+        phonetics: Array.isArray(data.phonetics) ? [...data.phonetics] : [],
+        audioUrls: Array.isArray(data.audioUrls) ? [...data.audioUrls] : [],
+        partOfSpeech: data.partOfSpeech,
+        definitionZh: data.definitionZh,
+        definitionEn: data.definitionEn || '',
+        examples: Array.isArray(data.examples) ? [...data.examples] : [],
+        tags: Array.isArray(data.tags) ? data.tags.map((tag: unknown) => typeof tag === 'string' ? tag : String(tag)) : [],
+        notes: data.notes || ''
       } as Word
       await wordsStore.updateWord(updatedWord)
     } else {
       // Create new word
       const newWord = createWord(data.lemma, 'manual')
       Object.assign(newWord, {
-        partOfSpeech: data.partOfSpeech || '',
+        phonetics: Array.isArray(data.phonetics) ? [...data.phonetics] : [],
+        audioUrls: Array.isArray(data.audioUrls) ? [...data.audioUrls] : [],
+        partOfSpeech: data.partOfSpeech,
         definitionZh: data.definitionZh,
-        definitionEn: data.definitionEn,
-        examples: data.examples || [],
-        tags: data.tags || [],
+        definitionEn: data.definitionEn || '',
+        examples: Array.isArray(data.examples) ? [...data.examples] : [],
+        tags: Array.isArray(data.tags) ? data.tags.map((tag: unknown) => typeof tag === 'string' ? tag : String(tag)) : [],
         notes: data.notes || '',
         infoCompleteness: 'complete'
       })

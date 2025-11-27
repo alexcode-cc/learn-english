@@ -8,10 +8,10 @@ All entities originate from the specification’s Key Entities section, expanded
 | `id` | string (ULID) | Primary identifier | Generated client-side; collision-resistant |
 | `lemma` | string | Raw word from CSV or manual entry | Required, trimmed, 2–64 chars |
 | `phonetics` | string[] | IPA strings returned by dictionary API | Optional; empty array allowed |
-| `audioUrls` | string[] | Cached pronunciation URLs or blob IDs | Each entry validated as HTTPS or IndexedDB blob |
-| `partOfSpeech` | string | Noun/verb/etc. | Enum from dictionary payload |
-| `definitionEn` | string | English definition | Required once enrichment succeeds |
-| `definitionZh` | string | Chinese definition | Required once enrichment succeeds |
+| `audioUrls` | string[] | Cached pronunciation URLs or blob IDs | Optional; each entry validated as HTTPS or IndexedDB blob |
+| `partOfSpeech` | string | Noun/verb/etc. | Required for manual entry; enum from dictionary payload |
+| `definitionEn` | string | English definition | Optional; can be empty for manual entries |
+| `definitionZh` | string | Chinese definition | Required for manual entry |
 | `examples` | string[] | Example sentences | Optional; max 5 stored |
 | `synonyms` | string[] | Synonym list | Optional |
 | `antonyms` | string[] | Antonym list | Optional |

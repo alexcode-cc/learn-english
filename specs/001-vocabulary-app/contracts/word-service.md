@@ -37,13 +37,19 @@ Creates a manual word entry (bypasses CSV flow).
 ```json
 {
   "lemma": "serendipity",
-  "definitionEn": "the occurrence ...",
+  "phonetics": ["/ˌserənˈdɪpəti/"],
+  "audioUrls": ["https://..."],
+  "partOfSpeech": "noun",
   "definitionZh": "意外發現心喜之物",
-  "audioUrl": "https://...",
+  "definitionEn": "the occurrence ...",
+  "examples": ["..."],
   "notes": "GRE list",
   "tags": ["difficult"]
 }
 ```
+
+**Required Fields**: `lemma`, `partOfSpeech`, `definitionZh`
+**Optional Fields**: `phonetics`, `audioUrls`, `definitionEn`, `examples`, `notes`, `tags`
 
 **Responses**
 - `201` with created Word payload

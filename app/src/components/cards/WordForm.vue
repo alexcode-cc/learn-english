@@ -1,5 +1,6 @@
 <template>
   <v-form ref="formRef" v-model="valid">
+    <!-- 必填欄位：單字 -->
     <v-text-field
       v-model="formData.lemma"
       label="單字 *"
@@ -7,11 +8,39 @@
       :rules="[rules.required, rules.lemmaLength]"
       required
     />
+    
+    <!-- 可選欄位：音標（在單字下方、詞性上方） -->
+    <v-text-field
+      v-model="phoneticsText"
+      label="音標"
+      variant="outlined"
+      hint="例如：/həˈloʊ/，多個音標請用逗號分隔"
+      persistent-hint
+      placeholder="/həˈloʊ/"
+    />
+    
+    <!-- 可選欄位：發音音檔連結（在單字下方、詞性上方） -->
+    <v-text-field
+      v-model="audioUrlsText"
+      label="發音音檔連結"
+      variant="outlined"
+      hint="輸入音檔的 URL，多個連結請用逗號分隔"
+      persistent-hint
+      placeholder="https://example.com/audio.mp3"
+    />
+    
+    <!-- 必填欄位：詞性 -->
     <v-text-field
       v-model="formData.partOfSpeech"
-      label="詞性"
+      label="詞性 *"
       variant="outlined"
+      :rules="[rules.required]"
+      required
+      hint="例如：noun, verb, adjective"
+      persistent-hint
     />
+    
+    <!-- 必填欄位：中文解釋 -->
     <v-textarea
       v-model="formData.definitionZh"
       label="中文解釋 *"
@@ -20,14 +49,16 @@
       :rules="[rules.required]"
       required
     />
+    
+    <!-- 可選欄位：英文解釋 -->
     <v-textarea
       v-model="formData.definitionEn"
-      label="英文解釋 *"
+      label="英文解釋"
       variant="outlined"
       rows="2"
-      :rules="[rules.required]"
-      required
     />
+    
+    <!-- 可選欄位：例句 -->
     <v-textarea
       v-model="examplesText"
       label="例句（每行一句）"
@@ -36,10 +67,14 @@
       hint="每行輸入一個例句"
       persistent-hint
     />
+    
+    <!-- 可選欄位：標籤 -->
     <TagSelector
       v-model="formData.tags"
       :show-create-button="true"
     />
+    
+    <!-- 可選欄位：筆記 -->
     <NoteEditor v-model="formData.notes" />
   </v-form>
 </template>
@@ -65,12 +100,34 @@ const valid = ref(false)
 
 const formData = ref<Partial<Word>>({
   lemma: '',
+  phonetics: [],
+  audioUrls: [],
   partOfSpeech: '',
   definitionZh: '',
   definitionEn: '',
   examples: [],
   tags: [],
   notes: ''
+})
+
+const phoneticsText = computed({
+  get: () => formData.value.phonetics?.join(', ') || '',
+  set: (value: string) => {
+    formData.value.phonetics = value
+      .split(',')
+      .map(p => p.trim())
+      .filter(p => p.length > 0)
+  }
+})
+
+const audioUrlsText = computed({
+  get: () => formData.value.audioUrls?.join(', ') || '',
+  set: (value: string) => {
+    formData.value.audioUrls = value
+      .split(',')
+      .map(url => url.trim())
+      .filter(url => url.length > 0)
+  }
 })
 
 const examplesText = computed({
@@ -87,6 +144,8 @@ watch(() => props.modelValue, (newValue) => {
   if (newValue) {
     formData.value = {
       lemma: newValue.lemma || '',
+      phonetics: [...(newValue.phonetics || [])],
+      audioUrls: [...(newValue.audioUrls || [])],
       partOfSpeech: newValue.partOfSpeech || '',
       definitionZh: newValue.definitionZh || '',
       definitionEn: newValue.definitionEn || '',
@@ -116,6 +175,8 @@ const rules = {
 function resetForm(): void {
   formData.value = {
     lemma: '',
+    phonetics: [],
+    audioUrls: [],
     partOfSpeech: '',
     definitionZh: '',
     definitionEn: '',
