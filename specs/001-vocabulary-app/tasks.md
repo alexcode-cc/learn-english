@@ -23,19 +23,19 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Create project structure per implementation plan in app/
-- [ ] T002 Initialize Vite project with Vue 3 + TypeScript template in app/
-- [ ] T003 [P] Configure ESLint with Vue 3 + TypeScript rules in app/.eslintrc.cjs
-- [ ] T004 [P] Configure Prettier for code formatting in app/.prettierrc
+- [x] T001 Create project structure per implementation plan in app/
+- [x] T002 Initialize Vite project with Vue 3 + TypeScript template in app/
+- [x] T003 [P] Configure ESLint with Vue 3 + TypeScript rules in app/.eslintrc.cjs
+- [x] T004 [P] Configure Prettier for code formatting in app/.prettierrc
 - [ ] T005 [P] Setup Git hooks for pre-commit linting and formatting
-- [ ] T006 Install and configure Vuetify 3 in app/src/main.ts
-- [ ] T007 Install and configure Pinia store in app/src/main.ts
-- [ ] T008 Install and configure Vue Router in app/src/router/
-- [ ] T009 [P] Install @mdi/font and configure icon system
-- [ ] T010 [P] Install and configure vite-plugin-pwa in app/vite.config.ts
-- [ ] T011 [P] Setup Vitest configuration in app/vitest.config.ts
-- [ ] T012 [P] Setup Playwright configuration in app/tests/e2e/
-- [ ] T013 Install dependencies: papaparse, idb, axios
+- [x] T006 Install and configure Vuetify 3 in app/src/main.ts
+- [x] T007 Install and configure Pinia store in app/src/main.ts
+- [x] T008 Install and configure Vue Router in app/src/router/
+- [x] T009 [P] Install @mdi/font and configure icon system
+- [x] T010 [P] Install and configure vite-plugin-pwa in app/vite.config.ts
+- [x] T011 [P] Setup Vitest configuration in app/vitest.config.ts
+- [x] T012 [P] Setup Playwright configuration in app/tests/e2e/
+- [x] T013 Install dependencies: papaparse, idb, axios
 
 ---
 
@@ -45,15 +45,15 @@
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T014 Setup IndexedDB database schema and initialization in app/src/services/db.ts
-- [ ] T015 [P] Create Word repository with IndexedDB operations in app/src/services/word-repository.ts
-- [ ] T016 [P] Create base Pinia store structure in app/src/stores/index.ts
-- [ ] T017 [P] Create error handling infrastructure in app/src/utils/error-handler.ts
-- [ ] T018 [P] Create logging utility with structured format in app/src/utils/logger.ts
-- [ ] T019 Setup environment configuration management in app/src/config/
-- [ ] T020 Create base Vuetify theme configuration in app/src/styles/theme.ts
-- [ ] T021 Create responsive layout components in app/src/components/layout/
-- [ ] T022 Setup service worker for PWA offline support in app/public/sw.js
+- [x] T014 Setup IndexedDB database schema and initialization in app/src/services/db.ts
+- [x] T015 [P] Create Word repository with IndexedDB operations in app/src/services/word-repository.ts
+- [x] T016 [P] Create base Pinia store structure in app/src/stores/index.ts
+- [x] T017 [P] Create error handling infrastructure in app/src/utils/error-handler.ts
+- [x] T018 [P] Create logging utility with structured format in app/src/utils/logger.ts
+- [x] T019 Setup environment configuration management in app/src/config/
+- [x] T020 Create base Vuetify theme configuration in app/src/styles/theme.ts
+- [x] T021 Create responsive layout components in app/src/components/layout/
+- [x] T022 Setup service worker for PWA offline support in app/public/sw.js
 
 **Checkpoint**: Foundation ready - user story implementation can now begin in parallel
 
@@ -76,17 +76,17 @@
 
 ### Implementation for User Story 1
 
-- [ ] T027 [P] [US1] Create Word entity type definition in app/src/types/word.ts
-- [ ] T028 [P] [US1] Create WordSet entity type definition in app/src/types/word-set.ts
-- [ ] T029 [US1] Implement useWordsStore Pinia store in app/src/stores/useWordsStore.ts (depends on T015, T016)
-- [ ] T030 [US1] Create WordCard component with flip animation in app/src/components/cards/WordCard.vue
-- [ ] T031 [US1] Create word card list component in app/src/components/cards/WordCardList.vue
-- [ ] T032 [US1] Implement card flip interaction logic in app/src/composables/useCardFlip.ts
-- [ ] T033 [US1] Create StudyPage with word card grid in app/src/pages/StudyPage.vue
-- [ ] T034 [US1] Implement word status update (mastered/needs review) in app/src/services/word-status-service.ts
-- [ ] T035 [US1] Add routing for StudyPage in app/src/router/index.ts
-- [ ] T036 [US1] Implement audio playback service for pronunciation in app/src/services/audio-service.ts
-- [ ] T037 [US1] Add empty state component for no words scenario in app/src/components/cards/EmptyState.vue
+- [x] T027 [P] [US1] Create Word entity type definition in app/src/types/word.ts
+- [x] T028 [P] [US1] Create WordSet entity type definition in app/src/types/word-set.ts
+- [x] T029 [US1] Implement useWordsStore Pinia store in app/src/stores/useWordsStore.ts (depends on T015, T016)
+- [x] T030 [US1] Create WordCard component with flip animation in app/src/components/cards/WordCard.vue
+- [x] T031 [US1] Create word card list component in app/src/components/cards/WordCardList.vue
+- [x] T032 [US1] Implement card flip interaction logic in app/src/composables/useCardFlip.ts
+- [x] T033 [US1] Create StudyPage with word card grid in app/src/pages/StudyPage.vue
+- [x] T034 [US1] Implement word status update (mastered/needs review) in app/src/services/word-status-service.ts
+- [x] T035 [US1] Add routing for StudyPage in app/src/router/index.ts
+- [x] T036 [US1] Implement audio playback service for pronunciation in app/src/services/audio-service.ts
+- [x] T037 [US1] Add empty state component for no words scenario in app/src/components/cards/EmptyState.vue
 
 **Checkpoint**: At this point, User Story 1 should be fully functional and testable independently
 
