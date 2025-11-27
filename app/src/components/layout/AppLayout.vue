@@ -15,6 +15,8 @@
       </v-btn>
     </v-app-bar>
     <v-main>
+      <!-- Render header slot if provided, otherwise use default layout -->
+      <slot name="header" />
       <v-container fluid>
         <slot />
       </v-container>
