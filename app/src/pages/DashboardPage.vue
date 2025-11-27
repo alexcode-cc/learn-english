@@ -78,6 +78,7 @@
         >
           <v-card
             class="word-card"
+            :data-word-id="word.id"
             @click="openWordDetail(word)"
           >
             <v-card-title class="d-flex align-center">

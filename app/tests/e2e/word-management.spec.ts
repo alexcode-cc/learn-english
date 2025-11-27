@@ -277,10 +277,13 @@ test.describe('Word Management E2E', () => {
     const firstCard = page.locator('.word-card').first()
     await expect(firstCard).toBeVisible({ timeout: 5000 })
 
-    // Get word lemma before deletion
+    // Get the card's data-word-id attribute (unique identifier) before deletion
+    // This is more reliable than using lemma which might have duplicates
+    const wordId = await firstCard.getAttribute('data-word-id')
+    
+    // Also get word lemma for logging purposes
     const wordLemma = await firstCard.locator('.v-card-title .text-h6, .v-card-title span').first().textContent()
-    expect(wordLemma).toBeTruthy()
-    const trimmedLemma = wordLemma!.trim()
+    const trimmedLemma = wordLemma?.trim() || 'unknown'
 
     // Find and click the three dots menu button in card title
     // The button is inside v-card-title with mdi-dots-vertical icon
@@ -370,44 +373,23 @@ test.describe('Word Management E2E', () => {
       }
     }).toPass({ timeout: 25000, intervals: [500, 1000, 2000] })
 
-    // Verify the specific word is removed from DOM
-    // Use a more reliable method: collect all titles first and check for duplicates
-    await expect(async () => {
-      // Check if loading is still in progress
-      const isLoading = await page.locator('.v-progress-linear').isVisible().catch(() => false)
-      if (isLoading) {
-        throw new Error('Data is still loading')
-      }
-      
-      // Wait a bit for DOM to update after loading completes
-      await page.waitForTimeout(300)
-      
-      const wordCards = page.locator('.word-card')
-      const cardCount = await wordCards.count()
-      
-      // First verify count is correct
-      if (cardCount !== initialCardCount - 1) {
-        throw new Error(`Card count mismatch: expected ${initialCardCount - 1}, found ${cardCount}`)
-      }
-      
-      // Collect all titles with their indices to detect duplicates
-      const allTitles: Array<{ index: number; title: string }> = []
-      for (let i = 0; i < cardCount; i++) {
-        const card = wordCards.nth(i)
-        const titleElement = card.locator('.v-card-title .text-h6, .v-card-title span').first()
-        const titleText = await titleElement.textContent().catch(() => '')
-        if (titleText) {
-          allTitles.push({ index: i, title: titleText.trim() })
+    // Verify the specific card is removed from DOM
+    // Use data-word-id attribute if available, otherwise fall back to card count verification
+    if (wordId) {
+      // If we have a word ID, verify the specific card is removed
+      await expect(async () => {
+        const cardWithId = page.locator(`.word-card[data-word-id="${wordId}"]`)
+        const cardExists = await cardWithId.count() > 0
+        if (cardExists) {
+          throw new Error(`Card with ID "${wordId}" (lemma: "${trimmedLemma}") still exists in DOM`)
         }
-      }
-      
-      // Check for the deleted word
-      const foundDeleted = allTitles.find(t => t.title === trimmedLemma)
-      if (foundDeleted) {
-        const titlesList = allTitles.map(t => t.title).join(', ')
-        throw new Error(`Deleted word "${trimmedLemma}" still found in card ${foundDeleted.index}. Current titles: ${titlesList}`)
-      }
-    }).toPass({ timeout: 30000, intervals: [1000, 2000, 3000] })
+      }).toPass({ timeout: 10000, intervals: [500, 1000, 2000] })
+    } else {
+      // Fallback: just verify the card count is correct (already done above)
+      // This handles cases where data-word-id is not available
+      const finalCardCount = await page.locator('.word-card').count()
+      expect(finalCardCount).toBe(initialCardCount - 1)
+    }
   })
 
   test('should delete a word via detail dialog', async ({ seedTestData: page }) => {
@@ -425,20 +407,23 @@ test.describe('Word Management E2E', () => {
     const firstCard = page.locator('.word-card').first()
     await expect(firstCard).toBeVisible({ timeout: 5000 })
 
-    // Get word lemma before deletion
+    // Get the card's data-word-id attribute (unique identifier) before deletion
+    // This is more reliable than using lemma which might have duplicates
+    const wordId = await firstCard.getAttribute('data-word-id')
+    
+    // Also get word lemma for logging purposes
     const wordLemma = await firstCard.locator('.v-card-title .text-h6, .v-card-title span').first().textContent()
-    expect(wordLemma).toBeTruthy()
-    const trimmedLemma = wordLemma!.trim()
+    const trimmedLemma = wordLemma?.trim() || 'unknown'
 
     // Click card to open detail dialog
     await firstCard.click()
     
     // Wait for detail dialog to open
-    const dialog = page.locator('[role="dialog"]').first()
-    await expect(dialog).toBeVisible({ timeout: 5000 })
+    const detailDialog = page.locator('[role="dialog"]').first()
+    await expect(detailDialog).toBeVisible({ timeout: 5000 })
     
     // Verify dialog shows the word - check inside dialog only
-    await expect(dialog.locator('.text-h5, .text-h6').filter({ hasText: trimmedLemma })).toBeVisible({ timeout: 3000 })
+    await expect(detailDialog.locator('.text-h5, .text-h6').filter({ hasText: trimmedLemma })).toBeVisible({ timeout: 3000 })
 
     // Find and click delete button in dialog
     const deleteButton = page.locator('[role="dialog"]').getByRole('button', { name: '刪除', exact: true })
@@ -475,7 +460,7 @@ test.describe('Word Management E2E', () => {
     await expect(page.locator('text=確認刪除')).not.toBeVisible({ timeout: 5000 })
     
     // Wait for detail dialog to close as well
-    await expect(dialog).not.toBeVisible({ timeout: 3000 }).catch(() => {
+    await expect(detailDialog).not.toBeVisible({ timeout: 3000 }).catch(() => {
       // Dialog might already be closed
     })
     
@@ -512,45 +497,23 @@ test.describe('Word Management E2E', () => {
       }
     }).toPass({ timeout: 25000, intervals: [500, 1000, 2000] })
 
-    // Verify the specific word is removed - wait longer and check more carefully
-    // First wait a bit more for DOM to fully update
-    await page.waitForTimeout(1000)
-    
-    await expect(async () => {
-      // Check if loading is still in progress
-      const isLoading = await page.locator('.v-progress-linear').isVisible().catch(() => false)
-      if (isLoading) {
-        throw new Error('Data is still loading')
-      }
-      
-      // Wait a bit for DOM to update after loading completes
-      await page.waitForTimeout(300)
-      
-      const wordCards = page.locator('.word-card')
-      const cardCount = await wordCards.count()
-      
-      // First verify count is correct
-      if (cardCount !== initialCardCount - 1) {
-        throw new Error(`Card count mismatch: expected ${initialCardCount - 1}, found ${cardCount}`)
-      }
-      
-      // Then check each card for the deleted word
-      // Use a more reliable method: get all card titles at once
-      const allTitles: string[] = []
-      for (let i = 0; i < cardCount; i++) {
-        const card = wordCards.nth(i)
-        const titleElement = card.locator('.v-card-title .text-h6, .v-card-title span').first()
-        const titleText = await titleElement.textContent().catch(() => '')
-        if (titleText) {
-          allTitles.push(titleText.trim())
+    // Verify the specific card is removed from DOM
+    // Use data-word-id attribute if available, otherwise fall back to card count verification
+    if (wordId) {
+      // If we have a word ID, verify the specific card is removed
+      await expect(async () => {
+        const cardWithId = page.locator(`.word-card[data-word-id="${wordId}"]`)
+        const cardExists = await cardWithId.count() > 0
+        if (cardExists) {
+          throw new Error(`Card with ID "${wordId}" (lemma: "${trimmedLemma}") still exists in DOM`)
         }
-      }
-      
-      // Check if deleted word is in the list
-      if (allTitles.includes(trimmedLemma)) {
-        throw new Error(`Deleted word "${trimmedLemma}" still found in cards. Current titles: ${allTitles.join(', ')}`)
-      }
-    }).toPass({ timeout: 30000, intervals: [1000, 2000, 3000] })
+      }).toPass({ timeout: 10000, intervals: [500, 1000, 2000] })
+    } else {
+      // Fallback: just verify the card count is correct (already done above)
+      // This handles cases where data-word-id is not available
+      const finalCardCount = await page.locator('.word-card').count()
+      expect(finalCardCount).toBe(initialCardCount - 1)
+    }
   })
 
   test('should search for words', async ({ seedTestData: page }) => {
