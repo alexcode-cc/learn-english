@@ -1,6 +1,8 @@
 import { openDB, DBSchema, IDBPDatabase } from 'idb'
 import type { Word } from '@/types/word'
 import type { WordSet } from '@/types/word-set'
+import type { Tag } from '@/types/tag'
+import type { Note } from '@/types/note'
 
 export interface LearnEnglishDB extends DBSchema {
   words: {
@@ -42,21 +44,6 @@ export interface LearnEnglishDB extends DBSchema {
     key: string
     value: ImportJob
   }
-}
-
-export interface Tag {
-  id: string
-  label: string
-  color: string
-  wordCount: number
-}
-
-export interface Note {
-  id: string
-  wordId: string
-  content: string
-  createdAt: string
-  updatedAt: string
 }
 
 export interface LearningSession {
