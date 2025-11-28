@@ -227,7 +227,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import WordForm from '@/components/cards/WordForm.vue'
 import WordDetailDialog from '@/components/cards/WordDetailDialog.vue'

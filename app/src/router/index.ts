@@ -55,7 +55,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   // 滾動行為優化
-  scrollBehavior(to, from, savedPosition) {
+  scrollBehavior(to, _from, savedPosition) {
     if (savedPosition) {
       return savedPosition
     } else if (to.hash) {
@@ -67,7 +67,7 @@ const router = createRouter({
 })
 
 // 路由預載入優化：預載入優先級高的路由
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   // 設置頁面標題
   if (to.meta.title) {
     document.title = `${to.meta.title} - Learn English`
@@ -78,14 +78,15 @@ router.beforeEach((to, from, next) => {
     const preloadRoutes = routes.filter(r => r.meta?.preload && r.name !== to.name)
     preloadRoutes.forEach(route => {
       if (route.component && typeof route.component === 'function') {
+        const componentLoader = route.component as () => Promise<any>
         // 使用 requestIdleCallback 在空閒時預載入
         if ('requestIdleCallback' in window) {
           requestIdleCallback(() => {
-            route.component?.()
+            componentLoader()
           })
         } else {
           setTimeout(() => {
-            route.component?.()
+            componentLoader()
           }, 2000)
         }
       }

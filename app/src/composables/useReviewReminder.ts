@@ -38,7 +38,9 @@ export function useReviewReminder() {
 
       logger.debug('Checked review reminder', { count })
     } catch (error) {
-      logger.error('Failed to check review reminder', error)
+      logger.error('Failed to check review reminder', {
+        error: error instanceof Error ? error.message : String(error)
+      })
     }
   }
 

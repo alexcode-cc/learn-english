@@ -197,7 +197,9 @@ async function loadDueWords(): Promise<void> {
     dueWords.value = await reviewEngine.getWordsDueForReview()
     dueReviewCount.value = await reviewEngine.getDueReviewCount()
   } catch (error) {
-    logger.error('Failed to load due words', error)
+    logger.error('Failed to load due words', {
+      error: error instanceof Error ? error.message : String(error)
+    })
   } finally {
     loading.value = false
   }
@@ -209,7 +211,9 @@ async function markAsReviewed(wordId: string, success: boolean): Promise<void> {
     await loadDueWords() // Refresh list
     logger.info(`Marked word ${wordId} as reviewed`, { success })
   } catch (error) {
-    logger.error('Failed to mark word as reviewed', error)
+    logger.error('Failed to mark word as reviewed', {
+      error: error instanceof Error ? error.message : String(error)
+    })
   }
 }
 
@@ -242,7 +246,9 @@ async function startQuiz(): Promise<void> {
     currentQuiz.value = quiz
     logger.info('Started quiz', { quizId: quiz.id, mode: selectedQuizMode.value })
   } catch (error) {
-    logger.error('Failed to start quiz', error)
+    logger.error('Failed to start quiz', {
+      error: error instanceof Error ? error.message : String(error)
+    })
   }
 }
 

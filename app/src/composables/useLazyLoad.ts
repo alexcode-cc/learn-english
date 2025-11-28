@@ -58,7 +58,7 @@ export function useLazyLoad<T extends HTMLElement = HTMLElement>(
   })
 
   return {
-    elementRef,
+    elementRef: elementRef as Ref<T | null>,
     isVisible,
     observe,
     unobserve
