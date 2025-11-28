@@ -19,8 +19,26 @@ const mockRouter = {
   currentRoute: { value: { path: '/dashboard' } }
 }
 
+const mockRoute = {
+  path: '/dashboard',
+  name: 'dashboard',
+  params: {},
+  query: {},
+  meta: {},
+  hash: '',
+  fullPath: '/dashboard'
+}
+
 vi.mock('vue-router', () => ({
-  useRouter: () => mockRouter
+  useRouter: () => mockRouter,
+  useRoute: () => mockRoute
+}))
+
+// Mock i18n
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({
+    t: (key: string) => key
+  })
 }))
 
 // Mock logger
@@ -50,7 +68,10 @@ describe('Word Management Integration', () => {
   it('should create a new word through the form', async () => {
     const wrapper = mount(DashboardPage, {
       global: {
-        plugins: [vuetify, createPinia()]
+        plugins: [vuetify, createPinia()],
+        mocks: {
+          $route: mockRoute
+        }
       }
     })
 
@@ -83,7 +104,10 @@ describe('Word Management Integration', () => {
 
     const wrapper = mount(DashboardPage, {
       global: {
-        plugins: [vuetify, createPinia()]
+        plugins: [vuetify, createPinia()],
+        mocks: {
+          $route: mockRoute
+        }
       }
     })
 
@@ -110,7 +134,10 @@ describe('Word Management Integration', () => {
 
     const wrapper = mount(DashboardPage, {
       global: {
-        plugins: [vuetify, createPinia()]
+        plugins: [vuetify, createPinia()],
+        mocks: {
+          $route: mockRoute
+        }
       }
     })
 
@@ -138,7 +165,10 @@ describe('Word Management Integration', () => {
 
     const wrapper = mount(DashboardPage, {
       global: {
-        plugins: [vuetify, createPinia()]
+        plugins: [vuetify, createPinia()],
+        mocks: {
+          $route: mockRoute
+        }
       }
     })
 
@@ -173,7 +203,10 @@ describe('Word Management Integration', () => {
 
     const wrapper = mount(DashboardPage, {
       global: {
-        plugins: [vuetify, createPinia()]
+        plugins: [vuetify, createPinia()],
+        mocks: {
+          $route: mockRoute
+        }
       }
     })
 
@@ -201,7 +234,10 @@ describe('Word Management Integration', () => {
 
     const wrapper = mount(DashboardPage, {
       global: {
-        plugins: [vuetify, createPinia()]
+        plugins: [vuetify, createPinia()],
+        mocks: {
+          $route: mockRoute
+        }
       }
     })
 
@@ -223,7 +259,10 @@ describe('Word Management Integration', () => {
 
     const wrapper = mount(DashboardPage, {
       global: {
-        plugins: [vuetify, createPinia()]
+        plugins: [vuetify, createPinia()],
+        mocks: {
+          $route: mockRoute
+        }
       }
     })
 
