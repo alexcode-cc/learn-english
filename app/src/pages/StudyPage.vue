@@ -22,15 +22,19 @@
       </v-col>
     </v-row>
 
-    <!-- 載入狀態顯示 -->
-    <div v-if="wordsStore.loading" class="text-center py-8">
-      <v-progress-circular
-        indeterminate
-        color="primary"
-        size="48"
-      />
-      <p class="mt-4 text-body-1">載入單字中...</p>
-    </div>
+    <!-- 載入狀態顯示 - 使用骨架屏 -->
+    <v-row v-if="wordsStore.loading">
+      <v-col
+        v-for="i in 6"
+        :key="i"
+        cols="12"
+        sm="6"
+        md="4"
+        lg="3"
+      >
+        <WordCardSkeleton />
+      </v-col>
+    </v-row>
 
     <!-- 背景載入進度提示 -->
     <v-alert
@@ -107,6 +111,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import type { WordStatus } from '@/types/word'
 import { useWordsStore } from '@/stores/useWordsStore'
 import WordCardList from '@/components/cards/WordCardList.vue'
+import WordCardSkeleton from '@/components/common/WordCardSkeleton.vue'
 
 const wordsStore = useWordsStore()
 const searchQuery = ref('')

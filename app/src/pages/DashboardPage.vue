@@ -52,10 +52,17 @@
         </v-col>
       </v-row>
 
-      <!-- Word List -->
+      <!-- Word List - Loading Skeleton -->
       <v-row v-if="loading">
-        <v-col cols="12">
-          <v-progress-linear indeterminate />
+        <v-col
+          v-for="i in 8"
+          :key="i"
+          cols="12"
+          sm="6"
+          md="4"
+          lg="3"
+        >
+          <WordCardSkeleton />
         </v-col>
       </v-row>
 
@@ -224,6 +231,7 @@ import { ref, computed, onMounted, watch } from 'vue'
 import AppLayout from '@/components/layout/AppLayout.vue'
 import WordForm from '@/components/cards/WordForm.vue'
 import WordDetailDialog from '@/components/cards/WordDetailDialog.vue'
+import WordCardSkeleton from '@/components/common/WordCardSkeleton.vue'
 import { useWordsStore } from '@/stores/useWordsStore'
 import { wordFilterService } from '@/services/word-filter-service'
 import { wordDeletionService } from '@/services/word-deletion-service'
