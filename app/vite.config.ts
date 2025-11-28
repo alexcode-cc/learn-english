@@ -266,22 +266,26 @@ export default defineConfig({
     cssCodeSplit: true
   },
   server: {
-    host: 'learn.english.org',
-    port: 5173,
-    // Use HTTPS only if not in E2E test mode and SSL certs exist
-    ...(process.env.VITE_E2E_TEST !== 'true' && (() => {
-      try {
-        return {
-          https: {
-            key: readFileSync(resolve(__dirname, 'ssl/learn.english.org/private.key')),
-            cert: readFileSync(resolve(__dirname, 'ssl/learn.english.org/certificate.crt'))
-            // If you need to include CA bundle, uncomment the line below:
-            // ca: readFileSync(resolve(__dirname, 'ssl/learn.english.org/ca_bundle.crt'))
+    host: process.env.VITE_HOST || process.env.VITE_DOMAIN || 'localhost',
+    port: parseInt(process.env.VITE_PORT || '5173', 10),
+    // Use HTTPS only if SSL is enabled, not in E2E test mode, and SSL certs exist
+    ...(process.env.VITE_SSL_ENABLED === 'true' &&
+      process.env.VITE_E2E_TEST !== 'true' &&
+      (() => {
+        const domain = process.env.VITE_DOMAIN || process.env.VITE_HOST || 'localhost'
+        try {
+          return {
+            https: {
+              key: readFileSync(resolve(__dirname, `ssl/${domain}/private.key`)),
+              cert: readFileSync(resolve(__dirname, `ssl/${domain}/certificate.crt`))
+              // If you need to include CA bundle, uncomment the line below:
+              // ca: readFileSync(resolve(__dirname, `ssl/${domain}/ca_bundle.crt`))
+            }
           }
+        } catch {
+          // SSL certs not found, use HTTP
+          return {}
         }
-      } catch {
-        // SSL certs not found, use HTTP
-        return {}
-      }
-    })())
-  }
+      })())
+    }
+})
