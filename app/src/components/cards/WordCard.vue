@@ -1,8 +1,18 @@
 <template>
-  <div class="word-card-container" @click="handleCardClick">
+  <div
+    class="word-card-container"
+    role="button"
+    tabindex="0"
+    :aria-label="`單字卡片：${storeWord.lemma}，${isFlipped ? '背面' : '正面'}`"
+    :aria-pressed="isFlipped"
+    @click="handleCardClick"
+    @keydown.enter="handleCardClick"
+    @keydown.space.prevent="handleCardClick"
+  >
     <div
       class="word-card"
       :class="{ flipped: isFlipped }"
+      :aria-hidden="false"
     >
       <!-- Front side -->
       <div class="word-card-front">
@@ -52,6 +62,7 @@
               size="small"
               @click.stop="playAudio"
               :disabled="!hasAudio"
+              :aria-label="hasAudio ? `播放 ${storeWord.lemma} 的發音` : '無發音可用'"
             >
               <v-icon>mdi-volume-high</v-icon>
             </v-btn>
@@ -97,6 +108,7 @@
               variant="flat"
               size="small"
               @click.stop="handleMastered"
+              aria-label="標記為已學會"
             >
               <v-icon start>mdi-check</v-icon>
               已學會
@@ -106,6 +118,7 @@
               variant="flat"
               size="small"
               @click.stop="handleNeedsReview"
+              aria-label="標記為需要複習"
             >
               <v-icon start>mdi-refresh</v-icon>
               需要複習
@@ -210,6 +223,14 @@ function playAudio(): void {
   perspective: 1000px;
   width: 100%;
   height: 400px;
+  cursor: pointer;
+  outline: none;
+}
+
+.word-card-container:focus-visible {
+  outline: 2px solid #1976D2;
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .word-card {
