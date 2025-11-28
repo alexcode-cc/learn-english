@@ -118,13 +118,6 @@ export const useImportStore = defineStore('import', () => {
     importResult.value = null
 
     try {
-      // 創建一個臨時的 File 對象用於匯入服務
-      // 注意：這裡我們實際上使用已解析的資料，但 importService 需要 File 對象
-      // 我們需要修改 importService 來支持直接使用已解析的資料
-      // 或者創建一個臨時的 File 對象
-      const blob = new Blob([''], { type: 'text/csv' })
-      const tempFile = new File([blob], csvFileName.value, { type: 'text/csv' })
-
       const optionsWithProgress: ImportOptions = {
         duplicateAction: duplicateAction.value,
         databaseAction: databaseAction.value,

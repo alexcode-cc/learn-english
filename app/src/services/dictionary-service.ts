@@ -1,7 +1,7 @@
 import axios from 'axios'
 import config from '@/config'
 import { logger } from '@/utils/logger'
-import { NetworkError, NotFoundError } from '@/utils/error-handler'
+import { NetworkError } from '@/utils/error-handler'
 import type { Word } from '@/types/word'
 
 export interface DictionaryEntry {

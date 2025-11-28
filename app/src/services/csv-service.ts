@@ -31,7 +31,7 @@ export class CSVService {
       Papa.parse(file, {
         header: true,
         skipEmptyLines: true,
-        complete: (results) => {
+        complete: (results: Papa.ParseResult<any>) => {
           if (results.errors.length > 0) {
             logger.warn('CSV parsing errors', { errors: results.errors })
           }
@@ -110,7 +110,7 @@ export class CSVService {
 
           resolve({ rows, errors })
         },
-        error: (error) => {
+        error: (error: Error) => {
           logger.error('CSV parsing failed', { error })
           reject(new NetworkError('CSV 檔案解析失敗', error))
         }

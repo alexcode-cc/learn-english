@@ -1,6 +1,5 @@
 import { quizService } from './quiz-service'
 import { quizRepository } from './quiz-repository'
-import type { Quiz } from '@/types/quiz'
 import { logger } from '@/utils/logger'
 
 export interface QuizScore {
@@ -44,7 +43,12 @@ export class QuizScoringService {
       await quizRepository.update(quiz)
     }
 
-    logger.info(`Calculated score for quiz ${quizId}`, score)
+    logger.info(`Calculated score for quiz ${quizId}`, {
+      totalQuestions: score.totalQuestions,
+      correctAnswers: score.correctAnswers,
+      incorrectAnswers: score.incorrectAnswers,
+      scorePercent: score.scorePercent
+    })
 
     return score
   }
