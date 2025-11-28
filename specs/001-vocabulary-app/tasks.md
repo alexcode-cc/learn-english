@@ -237,20 +237,20 @@
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T107 [P] Implement PWA manifest and icons in app/public/manifest.webmanifest
-- [ ] T108 [P] Add service worker caching strategies for offline support
-- [ ] T109 [P] Implement responsive design improvements across all pages
-- [ ] T110 [P] Add loading skeletons for better perceived performance
-- [ ] T111 [P] Implement error boundary components for graceful error handling
-- [ ] T112 [P] Add internationalization (i18n) support for Traditional Chinese
-- [ ] T113 [P] Implement accessibility improvements (ARIA labels, keyboard navigation)
-- [ ] T114 [P] Add performance optimizations (lazy loading, code splitting)
-- [ ] T115 [P] Create comprehensive documentation in app/docs/
-- [ ] T116 [P] Run quickstart.md validation and update if needed
-- [ ] T117 [P] Add unit tests to reach ≥80% coverage requirement
-- [ ] T118 [P] Performance audit and optimization (Lighthouse CI)
-- [ ] T119 [P] Security audit and hardening
-- [ ] T120 [P] Code cleanup and refactoring for maintainability
+- [x] T107 [P] Implement PWA manifest and icons in app/public/manifest.webmanifest
+- [x] T108 [P] Add service worker caching strategies for offline support
+- [x] T109 [P] Implement responsive design improvements across all pages
+- [x] T110 [P] Add loading skeletons for better perceived performance
+- [x] T111 [P] Implement error boundary components for graceful error handling
+- [x] T112 [P] Add internationalization (i18n) support for Traditional Chinese
+- [x] T113 [P] Implement accessibility improvements (ARIA labels, keyboard navigation)
+- [x] T114 [P] Add performance optimizations (lazy loading, code splitting)
+- [x] T115 [P] Create comprehensive documentation in app/docs/
+- [x] T116 [P] Run quickstart.md validation and update if needed
+- [x] T117 [P] Add unit tests to reach ≥80% coverage requirement
+- [x] T118 [P] Performance audit and optimization (Lighthouse CI)
+- [x] T119 [P] Security audit and hardening
+- [x] T120 [P] Code cleanup and refactoring for maintainability
 
 ---
 
