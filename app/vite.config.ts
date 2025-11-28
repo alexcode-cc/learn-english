@@ -12,7 +12,6 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico', 'robots.txt', 'icons/*.png', 'logo.svg'],
-      manifestPath: '/manifest.webmanifest',
       manifest: {
         name: 'Learn English - 背單字軟體',
         short_name: 'Learn English',
@@ -235,8 +234,6 @@ export default defineConfig({
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
-          const info = assetInfo.name?.split('.') || []
-          const ext = info[info.length - 1]
           if (/\.(mp4|webm|ogg|mp3|wav|flac|aac)(\?.*)?$/i.test(assetInfo.name || '')) {
             return 'assets/media/[name]-[hash].[ext]'
           }
