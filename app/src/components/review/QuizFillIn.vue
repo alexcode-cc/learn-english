@@ -103,7 +103,9 @@ async function loadQuestions(): Promise<void> {
       isSubmitted.value = questions.value[0].userAnswer !== ''
     }
   } catch (error) {
-    logger.error('Failed to load quiz questions', error)
+    logger.error('Failed to load quiz questions', {
+      error: error instanceof Error ? error.message : String(error)
+    })
   }
 }
 
@@ -123,7 +125,9 @@ async function submitAnswer(): Promise<void> {
       isCorrect: currentQuestion.value.isCorrect
     })
   } catch (error) {
-    logger.error('Failed to submit answer', error)
+    logger.error('Failed to submit answer', {
+      error: error instanceof Error ? error.message : String(error)
+    })
   }
 }
 

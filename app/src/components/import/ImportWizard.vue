@@ -225,7 +225,8 @@ watch(currentStep, async (newStep) => {
   }
 })
 
-async function handleFileSelected(file: File | null): Promise<void> {
+async function handleFileSelected(files: File | File[] | null): Promise<void> {
+  const file = Array.isArray(files) ? files[0] : files
   if (!file) {
     fileError.value = ''
     return

@@ -125,7 +125,7 @@ function handleGoHome() {
 }
 
 // 捕獲子組件錯誤
-onErrorCaptured((error: Error, instance, info) => {
+onErrorCaptured((error: Error, _instance, info) => {
   handleError(error, info)
   return false // 阻止錯誤繼續向上傳播
 })

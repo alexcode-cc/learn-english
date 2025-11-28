@@ -84,7 +84,7 @@
 import { computed } from 'vue'
 import { useImportStore } from '@/stores/useImportStore'
 
-const props = defineProps<{
+defineProps<{
   canCancel?: boolean
 }>()
 

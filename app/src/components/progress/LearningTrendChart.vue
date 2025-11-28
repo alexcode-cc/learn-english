@@ -75,7 +75,7 @@
 import { computed } from 'vue'
 import { useProgressStore } from '@/stores/useProgressStore'
 
-const props = defineProps<{
+defineProps<{
   days?: number
 }>()
 

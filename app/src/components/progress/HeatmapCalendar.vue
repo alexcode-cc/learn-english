@@ -59,9 +59,6 @@ const calendarDays = computed(() => {
   const today = new Date()
   const daysToShow = props.days ?? 365
   
-  // Get max minutes for intensity calculation
-  const maxMinutes = Math.max(...Object.values(heatmapData.value), 1)
-  
   for (let i = daysToShow - 1; i >= 0; i--) {
     const date = new Date(today)
     date.setDate(date.getDate() - i)
